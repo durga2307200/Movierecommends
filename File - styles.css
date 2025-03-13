@@ -45,6 +45,11 @@ button:hover {
     margin: 20px 0;
 }
 
+.movie-details img {
+    width: 100%;
+    border-radius: 10px;
+}
+
 .recommendations {
     display: flex;
     flex-wrap: wrap;
