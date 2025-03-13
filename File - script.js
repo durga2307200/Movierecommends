@@ -1,16 +1,16 @@
-const API_KEY = "406c6cfefc1d55bf6f22f476fc3fed6d"; // Replace with your TMDb API key
+const API_KEY = "YOUR_TMDB_API_KEY"; // Replace with your TMDb API key
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 
 // Function to search for a movie
 function searchMovie() {
-    const searchInput = document.getElementById("searchInput").value;
+    const searchInput = document.getElementById("searchInput").value.trim();
     if (searchInput === "") {
         alert("Please enter a movie name.");
         return;
     }
 
-    fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchInput}`)
+    fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(searchInput)}`)
         .then(response => response.json())
         .then(data => {
             if (data.results.length > 0) {
@@ -29,7 +29,7 @@ function displayMovieDetails(movie) {
     const movieDetails = document.getElementById("movieDetails");
     movieDetails.innerHTML = `
         <h2>${movie.title}</h2>
-        <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
+        <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'placeholder_image_url'}" alt="${movie.title}">
         <p>${movie.overview}</p>
     `;
 }
@@ -47,7 +47,7 @@ function fetchRecommendations(movieId) {
                     const movieCard = document.createElement("div");
                     movieCard.classList.add("movie-card");
                     movieCard.innerHTML = `
-                        <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
+                        <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'placeholder_image_url'}" alt="${movie.title}">
                         <p>${movie.title}</p>
                     `;
                     recommendations.appendChild(movieCard);
